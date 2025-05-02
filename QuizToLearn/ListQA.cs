@@ -83,6 +83,17 @@ namespace QuizToLearn
                                                              "можно удалить изменения\n"+
                                                              "git reset --hard\n"),
 
+                ("13.Как работать с фичей вдвоём?","один разработчик создает feature\n"+
+                                                "git flow feature start newFeature\n"+
+                                                "Пушим ветку на сервер\n"+
+                                                "git push -u origin feature newFeature\n"+
+                                                "второй разработчик получает актуальные ветки\n"+
+                                                "git fetch --all\n"+
+                                                "переходим на feature\n"+
+                                                "git checkout feature\n"+
+                                                "подтягиваем последние изменения\n"+
+                                                "git pull origin feature\n"),
+
             };
         }
 
