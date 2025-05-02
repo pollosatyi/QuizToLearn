@@ -74,7 +74,14 @@ namespace QuizToLearn
                 ("11. Что делает feature finish?","Код из feature/NewFeature, объединяется с develop через merge/pullRequests\n"+
                                                    "Удаляется ветка локально и удаленно\n"),
 
-                ("12.",""),
+                ("12.Что произойдёт при feature finish, если есть незакоммиченные изменения?","выйдет ошибка. Можно сделать коммит \n"+
+                                                             "git commit -m\n"+
+                                                             "Или сделать временные сохраненее\n"+
+                                                             "git stash\n"+
+                                                             "git flow finish feature/newFeature\n"+
+                                                             "git pop - возвращение изменений\n"+
+                                                             "можно удалить изменения\n"+
+                                                             "git reset --hard\n"),
 
             };
         }
