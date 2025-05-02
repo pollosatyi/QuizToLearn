@@ -97,6 +97,17 @@ namespace QuizToLearn
                                                 "git checkout feature\n"+
                                                 "подтягиваем последние изменения\n"+
                                                 "git pull origin feature\n"),
+                ("14.Как начать релиз?","Ветка develop стабильна\n"+
+                                         "Тесты проходят (CI/CD зелёный)\n"+
+                                         " Версия проекта обновлена\n"+
+                                         "git checkout develop\n"+
+                                         "git pull origin develop\n"+
+                                         "git flow release start new\n"
+                                         ),
+                ("15.Что делает release finish","смержит release в main\n"+
+                                                "смержит release в develop\n"+
+                                                "удалит release\n"+
+                                                "переключит на develop\n")
 
             };
         }
