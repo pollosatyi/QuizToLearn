@@ -71,6 +71,11 @@ namespace QuizToLearn
                                        "После удачного слияния удаляем ветку локально: git branch -d feature/newFeature\n "+
                                        "и на удаленном сервере git push origin --delete feature/newFeature\n"),
 
+                ("11. Что делает feature finish?","Код из feature/NewFeature, объединяется с develop через merge/pullRequests\n"+
+                                                   "Удаляется ветка локально и удаленно\n"),
+
+                ("12.",""),
+
             };
         }
 
