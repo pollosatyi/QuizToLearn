@@ -103,7 +103,23 @@ namespace QuizToLearn
                 ("15.Что делает release finish","смержит release в main\n"+
                                                 "смержит release в develop\n"+
                                                 "удалит release\n"+
-                                                "переключит на develop\n")
+                                                "переключит на develop\n"),
+
+                ("16.Что делать, если хотфиксы уже в master,\n"+
+                "а develop отстаёт?",
+                                                       "Есть два способа:\n"+
+                                                       "Первый способ:\n"+
+                                                       "Merge master в develop\n"+
+                                                       "git checkout develop\n"+
+                                                       "git pull origin develop\n"+
+                                                       "git merge master\n"+
+                                                       "git push origin develop\n"+
+                                                       "Второй способ:\n"+
+                                                       "Перенос хотфиксов по одному. Cherry pick хотфиксов\n"+
+                                                       "git checkout develop\n"+
+                                                       "git pull origin develop\n"+
+                                                       "git cherry-pick <хеш хотфикса>\n"+
+                                                       "git push origin develop\n"),
 
             };
         }
