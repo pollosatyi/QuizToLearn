@@ -107,7 +107,42 @@ namespace QuizToLearn
                 ("15.Что делает release finish","смержит release в main\n"+
                                                 "смержит release в develop\n"+
                                                 "удалит release\n"+
-                                                "переключит на develop\n")
+                                                "переключит на develop\n"),
+
+                ("16.Что делать, если хотфиксы уже в master,\n"+
+                "а develop отстаёт?",
+                                                       "Есть два способа:\n"+
+                                                       "Первый способ:\n"+
+                                                       "Merge master в develop\n"+
+                                                       "git checkout develop\n"+
+                                                       "git pull origin develop\n"+
+                                                       "git merge master\n"+
+                                                       "git push origin develop\n"+
+                                                       "Второй способ:\n"+
+                                                       "Перенос хотфиксов по одному. Cherry pick хотфиксов\n"+
+                                                       "git checkout develop\n"+
+                                                       "git pull origin develop\n"+
+                                                       "git cherry-pick <хеш хотфикса>\n"+
+                                                       "git push origin develop\n"),
+
+                ("17.",""),
+
+                ("18.",""),
+
+                ("19.Какие есть альтернативы GitHub?","GitLab, Bitbucket, Azure DevOps"),
+
+                ("20.Можно ли работать в команде без GitHub?","Если только использовать свой сервер или одну папку с проектом"),
+
+                ("21.Что такое origin в контексте GitHub?","Алиас псевдоним для адреса вашего  на удаленного репозитория\n"+
+                                                           "Сокращенная ссылка чтоб не вводить полный url адрес каждый раз\n"),
+
+                ("22.Что происходит при git add .","В индекс(stading area) добавляются:\n"+
+                                                    "Новые файлы untracked\n"+
+                                                    "Измененные файлы modified\n"+
+                                                    "Удаленные файлы deleted\n"+
+                                                    "Технически:\n"+ 
+                                                    "git вычисляет хеш каждого файла и сохраняет его временной зоне\n "+
+                                                    "данные файлов записываются в объектную базу Git(папка .git/objects\n")
 
             };
         }
