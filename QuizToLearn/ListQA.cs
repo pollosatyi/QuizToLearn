@@ -846,7 +846,7 @@ namespace QuizToLearn
                                                        "show intervalstyle стиль отображения интервала\n"+
                                                        "SET intervalstyle = установка стиля отображения интервала\n"),
 
-                 ("164. Как посмотреть добавленные данные после INSERT INTO VALUES?","RETURNING *"),
+                 ("164. Как посмотреть добавленные данные после INSERT INTO VALUES?","VALUES() RETURNING *"),
 
 
                  ("165. Как создать идентификатор?","SERIAL PRIMARY KEY\n"+
@@ -1120,7 +1120,238 @@ namespace QuizToLearn
                                                                         "Основные показатели:\n"+
                                                                         "Время подготовки и выполнения\n"+
                                                                         "loops количество циклов\n"+
-                                                                        "(analyze,cost off) отключить показатель cost\n")
+                                                                        "(analyze,cost off) отключить показатель cost\n"),
+
+                 ("224. Как можно указать столбы с одинаковым названиями при Join","ON USING(user_id)"),
+
+                 ("225. Full JOIN","Все совпадения плюс NULL левой и правой таблицы\n"),
+
+                 ("226. Как всю включить после объединения таблиц","ON true"),
+
+                 ("227. INNER JOIN LATERAL","Это специальный тип соединения, который позволяет подзапросу\n"+
+                                            "или функции, следующий за ключевым словом LATERAL,\n"+
+                                            "ссылаться на столбцы из таблицы указанных ранее\n"),
+
+                 ("228. Выравнивание строк через ROW пример","SELECT * FROM ROWS FROM(\n"+
+                                                             "generate_series(1,10), -- это функции генерации от 1 до 10\n"+
+                                                             "generate_series(101,110)  -- это функции генерации от 101 до 110)\n"+
+                                                             "AS t(lower,upper)\n"+
+                                                             "Будет создано два столбца по 10 строк\n"+
+                                                             "если один столбец будет иметь больше строк\n"+
+                                                             "то в другой будет NULL\n"),
+
+                 ("229. Функция,которая ставит значение по умолчанию, если значение NULL","coalesce(столбец, значение по умолчанию)\n"),
+
+                 ("230. Объединение Postgres","UNION объединяет два и более запросов, удаляя дубликаты\n"+
+                                              "UNION ALL объединяет запросы без удаления\n"+
+                                              "Количество строк в запросах должно быть одинаковое"),
+
+                 ("231.Пересечение Postgres","INTERSECT возвращает только те строки, которые есть в результатах обоих запросов\n"),
+
+                 ("232.Разность Postgres","EXCEPT возврашает только строки из первого запроса, которых нет во втором\n"),
+
+                 ("233. Получение строк из массива","SELECT unnest(ARRAY[1,2,3,4,5]) AS tag_name"),
+
+                 ("234.Получение строк из массива с порядковым id","SELECT ordinality, element FROM\n"+
+                                                                   "unnest(ARRAY['first','second','third]) WITH ORDINALITY AS t(element, ordinality)\n"),
+
+                 ("235.Преобразование массивов JSON в таблицу","SELECT * FROM json_to_recorderset('[\n"+
+                                                               "{id}:1, name:ALICE, email: alice@example.com]')\n"+
+                                                               "AS x(id INT, name TEXT, email TEXT)\n"+
+                                                               "Чтоб сделать тоже самое с JSONB нужно:\n"+
+                                                               "jsonb_to_recorderset и ]'::JSONB\n"),
+
+                 ("236.Получение строк из строки через регулярное выражение\n","SELECT regexp_matches('строка','\\m\\w{4}\\M'','g') AS match"),
+
+                 ("237. Разделить строку на один столбец","SELECT string_to_table('apple,banana,cherry',',') AS fruit\n"),
+
+                 ("238.Как можно ускорить связь между таблицами","Создать индекс для внешнего ключа\n"),
+
+                 ("239.Необчные агрегатные функции","ANY_VALUE(столбец) любое значение\n"+
+                                                    "ARRAY_AGG(столбец) агрегирование массива\n"+
+                                                    "JSON_AGG(столбец)\\JSONB_AGG агрегирование JSON\n"+
+                                                    "BOOL_AND(столбец) покажет true где все столбцы совпадают\n"+
+                                                    "BOOL_OR где есть хоть одно совпадение\n"+
+                                                    "COUNT(*) FILTER(WHERE) фильтр\n"+
+                                                    "STRING_AGG(строковый столбец,'разделитель') объединение столбцов через разделитель в один столбец\n"+
+                                                    "" +
+                                                    ")"),
+
+                 ("240. Сеты  в GROPUP BY","SELECT emploee_id, region, sum(amount) FROM sales\n"+
+                                                 "GROUP BY grouping sets((employee_id),(region))\n"+
+                                                 "() вывод общей пустой групировки\n"+
+                                                 "вывод разных группировок"),
+
+                 
+                ("241 Сварачивание в GROUP BY","rollup(region, employee_id) выведет:\n"+
+                                               "region + employee_id\n"+
+                                               "region + NULL\n"+
+                                               "NULL\n"),
+
+                ("242. Куб в GROUP BY","CUBE(employee_id, region) Все возможные варианты группировки\n"),
+
+                ("243. Оконная функция"," Функция, которая работает с выделенным набором строк(окном, партицией)\n"+
+                                        "и выполняет вычисление для этого набора строк в отдельном столбце\n"),
+
+                ("244.Партиции","(окна из набора строк).Это набор строк, указанный для оконной функции по одному из столбцов\n"+
+                                "или группе столбцов таблицы. Партиции для каждой оконной функции в запросе могут быть разделены по различным колонкам таблицы"),
+
+                ("245. CTE? ","Это временные наборы результатов, которые существуют только во время выполнения запроса\n"+
+                                            "Они позволяют создавать именованные подзапросы,\n"+
+                                            "которые можно многократно использовать в основном запросе\n"+
+                                            "WITH имя_cte AS(\n"+
+                                            "SELECT)\n"+
+                                            "SELECT * FROM имя_cte"),
+
+                ("246. Обобщенное табличное выражение CTE для чего полезны","1. Улучшают читаемость сложных запросов\n"+
+                                             "2. Позволяют избежать дублирования кода\n"+
+                                             "3. Поддерживают рекурсию для работы с иерархическими данными\n"+
+                                             "4. Могут материализоваться для оптимизации производительности\n"),
+
+                ("247. Материализация CTE","Postgres сам выбирает материализовать или нет. Обычно при маленьком количестве вызовов не матеарилизует\n" +
+                                           "WITH cte_name AS not matearilized\n"+
+                                           "AS matearilized\n"),
+
+                ("248. Рекурсивный CTE. Пример","WITH RECURSIVE имя AS\n"+
+                                                "можно перечислить столбцы после AS(id,name)\n"+
+                                                "WITH recursive numbers AS(\n"+
+                                                "SELECT 1 AS n\n"+
+                                                "UNION ALL\n"+
+                                                "SELECT n+1 FROM numbers WHERE n < 10)\n"+
+                                                "SELECT * FROM numbres\n"),
+
+                ("249. CTE рекурсия. Пример с фибоначи\n","WITH RESURSIVE numbres(id, a, b) AS (\n"+
+                                                          "SELECT 1, 0, 1\n"+
+                                                          "UNION ALL\n"+
+                                                          "SELECT id + 1, b, a + b FROM numbres WHERE id < 20)\n"+
+                                                          "SELECT id, a FROM numbres\n"),
+
+                ("250. CTE рекурсияю Иерархия пример","WITH RECURSIVE all_categories AS(\n"+
+                                                      "SELECT id, name, name AS path\n"+
+                                                      "FROM categories WHERE parent_id IS NULL\n"+
+                                                      "UNION ALL\n"+
+                                                      "SELECT categories.id, categories.name, CONCAT(path, '-->', categories.name)\n"+
+                                                      "FROM all_categories\n"+
+                                                      "INNER JOIN categories ON all_categories.id=categories.parent_id)\n"+
+                                                      "SELECT* FROM all_categories\n"),
+
+                ("251. Способ сравнения с NULL","SELECT 1 IS DICTINCT FROM NULL\n"+
+                                                " IS NULL"),
+
+                ("252. Функция возвращает NULL, если выражение TRUE","NULLIF(1,1),если неравны возрваащется первое значение\n"),
+
+                ("253. Сравнение строк ROW","SELECT (1,2,3) = (1,2,3) - TRUE\n"+
+                                            "SELECT (1,2,3) = (1,2,4) - FALSE\n"+
+                                            "SELECT (1,2,3) = (1,NULL,3) - NULL\n" +
+                                            "SELECT (1,2,3) = (1,NULL,4) - FALSE\n"),
+
+                ("254. Представление VIEW синтаксис","CREATE VIEW имя AS();"),
+
+                ("255. Отличие VIEW от WITH","VIEW сохраняется в базе, WITH временное(на время запроса)\n"+
+                                             "VIEW может кешироваться, WITH вычисляется каждый раз\n"+
+                                             "VIEW не поддерживает рекурсию\n"+
+                                             "VIEW для многократного использования в разных запросах, WITH только в текущем запросе\n"),
+
+                ("256. Как сделать Upsert при вставке","INSERT INTO kv (key,value) values ('cache:foo', 123)\n"+
+                                                       "on conflict (key) do nothing - ничего не делай\n"+
+                                                       "on conflict (key) do update set value='there was conflict' - вставка с заменой\n"+
+                                                       "on conflict(key) do update set value=excluded.value - вставка с заменой на value\n"+
+                                                       "set value = kv.value - вставка с заменой\n"+
+                                                       "where как допусловие, при несоответствии не выполняется обновление\n"+
+                                                       "returning позволяет отобразить вставку\n"),
+
+                ("257. Операторы по поиску соответствия в тексте","LIKE\n"+
+                                                                  "ILIKE без учета регистра\n"),
+
+                ("258. Полнотекстовый поиск пример","SELECT title FROM movies\n"+
+                                                    "WHERE to_tsvector(title) @@ to_tsquery('star & wars')\n"+
+                                                    "& и то и другое\n"+
+                                                    "| одно из двух\n"+
+                                                    "<-> после первого идет сразу второе\n"+
+                                                    "'star <-> (wars | trek)'\n"+
+                                                    "<1> через сколько слов должно быть следующее слово\n"+
+                                                    "'star & trek & !generation исключение слова\n"),
+
+                ("259. Функция ранжирование полнотекстового поиска. Пример","ts_rank(to_tsvector(title), to_tsquery('star & (wars | trek)')) AS rank\n"+
+                                                                            "FROM movies\n"+
+                                                                            "WHERE to_tsvector(title) @@ to_tsquery('star & (wars | trek)')\n"+
+                                                                            "ORDER BY rank DESC\n"+
+                                                                            ""),
+                ("260. Векторы полнотестового поиска","to_tsquery() стандартное\n"+
+                                                      "phraseto_tsquery('star wars') - 'star'<->'war'\n"+
+                                                      "plainto_tsquery('star wars') - 'star' & 'war\n"+
+                                                      "websearch_to_tsquery() допускает двойные кавычки, не выдает ошибку\n"),
+                ("261. Языковая допопция to_tsvector()","to_tsvector('simple',title) - простой поиск. Включает предлоги и артикулы\n"+
+                                                         "to_tsvector('english', title) - желательно указывать язык\n"+
+                                                         "setweight(to_tsvector(title),'A') установка приоритета при ранжировании, при совпадении\n"),
+
+                ("262. Как сделать чтоб полнотекстовый поиск реагировал на точность совпадения","ts_rank(to_tsvector(title), to_tsquery('flight'),1)\n"+
+                                                                                                "+(case when genre like %action% then 0.1 else 0)\n"+
+                                                                                                "добавление к рейтингу\n"),
+                ("263. Оптимизация полнотестового поиска. Пример","ALTER TABLE movies ADD COLUMN search_vectors tsvector generated always AS(\n"+
+                                                                  "setweight(to_tsvector('english', coalesce(title, '')), 'B')\n+" +
+                                                                  "|| ''\n"+
+                                                                  "|| to_tsvector('english', coalesce(plot, '')))stored\n"+
+                                                                  "Создали генерируемый столбец\n"+
+                                                                  "SELECT * FROM movies\n"+
+                                                                  "WHERE search_vectors @@ websearch_to_tsquery('\"stars wars\"')\n"+
+                                                                  "ORDER BY\n"+
+                                                                  "ts_rank(search_vectors, websearch_to_tsquery('\"stars wars\"')) desc\n"+
+                                                                  "Вызваем запрос\n"+
+                                                                  "CREATE index idx_movies_search_gin on movies using gin(search_vectors)\n"+
+                                                                  "Создание индекса\n"),
+
+                ("264. Поиск полнотекстовый с выделением","ts_headline('english', title, websearch_to_tsquery('\"stars wars\"'),\n" +
+                                                          "'StarSel=<mark>,StopSel=</mark>'"),
+
+                ("265. Функции для валидации и определения JSON","val IS JSON\n"+
+                                                                 "IS JSON scalar - скалярное ли\n"+
+                                                                 "IS JSON array - массив ли\n"+
+                                                                 "IS JSON object - объект\n"+
+                                                                 "IS JSON object with unicue keys - объект с уникальными ключами\n"),
+
+                ("266. Функции для создания JSON","json_build_object - создание объекта JSON\n"+
+                                                  "json_build_array - создание массива JSON\n"+
+                                                  "to_json('aaron'::text) возврат текста в типе JSON\n"+
+                                                  "Создание строки JSON из запроса\n"+
+                                                  "SELECT row_to_json(u) AS users_json FROM\n"+
+                                                  "(SELECT * FROM users WHERE email= ' ') u\n"+
+                                                  "json_agg(row_to_json(u)) - массив JSON строк\n"+
+                                                  "Создать массив объектов JSON\n"+
+                                                  "json_agg(\n"+
+                                                  "json_build_object(\n"+
+                                                  "'id', id,\n"+
+                                                  "'email', email))\n"),
+
+                ("267. Получение значений из JSON","::JSON) -> ключ - возвращает в формате JSON\n"+
+                                                   "->> ключ - возвращает в формате текст\n"+
+                                                   "-> ключ -> ключ - возвращает вложенный JSON\n"+
+                                                   "-> ключ ->1 - возвращает элемент массива,число может быть отрицательным, считает с конца\n"+
+                                                   "#>{customer,name} продвижение как по стрелкам.Формат json\n"+
+                                                   "#>> формат текст\n"+
+                                                   "если не найдет ничего вернет NULL\n"),
+
+                ("268. Получение значений из JSONB","SELECT jsonb_path_query('JSON с массивом', '$.items[0].product' - возвращает элемент в формате JSON\n"+
+                                                    "'$.status') #>> '{}'  без кавычек\n"+
+                                                    ""),
+
+                ("270. Сравнение JSONB","SELECT '{\"a\":1, \"b\":2}'::jsonb @> '{\"a\":1}'::jsonb  - TRUE\n"+
+                                       "SELECT '{\"a\":1, \"b\":2}'::jsonb <@ '{\"a\":1}'::jsonb - FALSE\n"+
+                                       "'[apple, banana, cherry]'::jsonb @> '[apple,cherry]::jsob - TRUE\n'"+
+                                       "::jsonb @> '{customer: {name: Alice}}' - сравнение вложенного JSONB\n"+
+                                       "WHERE details @> '{status:shipped}' фильтр в запросе\n"+
+                                       "WHERE details ->> status = shipped фильтр в запросе\n"),
+
+                ("271. Проверка ключей JSONB","::jsonb ? 'status' - есть ли ключ status\n"+
+                                              "SELECT '[apple, banana]' ? 'asdf' содержит ли элемент\n"+
+                                              "::jsonb ?| array['status','created_at'] содержит ли какой нибудь ключ из массива\n"+
+                                              "&| все совпадения\n"+
+                                              "")
+
+
+
+
+
 
 
 
