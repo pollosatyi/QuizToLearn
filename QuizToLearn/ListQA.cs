@@ -1346,7 +1346,128 @@ namespace QuizToLearn
                                               "SELECT '[apple, banana]' ? 'asdf' содержит ли элемент\n"+
                                               "::jsonb ?| array['status','created_at'] содержит ли какой нибудь ключ из массива\n"+
                                               "&| все совпадения\n"+
-                                              "")
+                                              ""),
+
+                ("272. Преобразование JSONB в таблицу","SELECT * FROM jsonb_each('{\"a\":1}') - выведет два столбца ключ и значение\n"+
+                                                       "jsonb_each_text() - выведет таблицу, где ключ и значение будет в текстовом формате\n"+
+                                                       "lateral jsonb_each_text(столбец из таблицы с JSONB) - выведет дополнительные столбцы Key и Value\n"+
+                                                       "SELECT * FROM jsonb_to_recordset('[{\"a\":1,\"b\":\"foo\"}]') AS t(a int, b text) создаст столбцы с названиями a и b, и значениями 1 и foo\n"+
+                                                       "SELECT * FROM jsonb_to_recordset(jsonb_build_array('{\"theme\":\"light\"}'::jsonb)) AS t(theme text) преобразование сначала в массив а потом столбец\n"+
+                                                       ""),
+                ("273. Update JSON","Update config - обновить таблицу\n"+
+                                    "set\n " +
+                                    "settings = jsonb_set(settings,'{theme}', json_scalar('syntwave')::jsonb)\n"+
+                                    "в столбце settings по ключу theme обновит значение на syntwave\n"+
+                                    "set settings = settings - 'theme' удаление ключа theme\n"+
+                                    "set details =json_set(details, ключ, значение) установка вложенного значения по ключу\n"+
+                                    "set details = jsonb_set(details, '{items,0,price}',to_json(899)::jsonb\n установка в ключе items,в 0 значении-массиве,по ключу price значения 899\n" +
+                                    "set details = jsonb_insert(details, '{items,0}','{\"price\": 199, \"product\":\"HeadP\"}'::jsonb, true)\n"+
+                                    "добавление в массив если true, обновление если fasle\n"),
+
+
+                ("274. Добавление индекса JSON","Первый вариант:\n"+
+                                           "CREATE INDEX orders_json_email_idx ON orders_json(\n"+
+                                           "((details -> 'customer' ->> 'email')::text));\n"+
+                                           "Запустить поиск по индексу" +
+                                           "WHERE details->'customer'->>'email'::text = '.com'\n"+
+                                           "Второй вараинт:\n"+
+                                           "column email text GENERATED ALWAYS AS(details->'customer'->>'email'::text) STORED\n"+
+                                           "создание обычного индекса по email\n"),
+
+                ("275.Индекс GIN для JSON","CREATE INDEX название ON таблица USING GIN(столбец) подходит для @>,?,?|\n"+
+                                       "USING GIN(столбец json_path) - оператор по умолчанию\n"+
+                                       "USING GIN(столбец json_path_ops) - подходит только @>\n"+
+                                       ""),
+
+                ("276.Создать расширение для vector","CREATE EXTENSION IF NOT EXISTS vector\n"+
+                                                     ""),
+
+                ("277. Пример с vector расширением","CREATE TABLE products_v(\n"+
+                                                    "id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,\n"+
+                                                    "name TEXT,\n"+
+                                                    "embedding VECTOR(4));\n"+
+                                                    "INSERT INTO products_v(name, embedding) VALUES\n"+
+                                                    "('Product A', '[1,2,3,4]')\n"+
+                                                    "('Product B', '[10,11,12,13]')\n"+
+                                                    "SELECT *, embedding <->[1,2,3,4] вычисляет расстояние в эвклидовой геометрии\n"+
+                                                    "Результат цифры. Чем больше соответствия тем меньше\n"+
+                                                    "ORDER BY embedding <->[1,2,3,4]"+
+                                                    "<=> cosine для нормализованных\n"+
+                                                    "<+> L1\n"+
+                                                    "<#> Inner Product\n"),
+
+                ("278.Создание векторных индексов","CREATE INDEX имя ON table using ivfflat(embedding vector_cosine_ops) with (lists=10)\n"+
+                                                   "vector_ip_ops - указание оператора\n"+
+                                                   "USING hnsw - более точен, но требует больше ресурсов\n"),
+
+                ("279. Нормалализация базы данных","Это процесс организации данных в базе для мимнимизации избыточности и зависимостей\n"+
+                                                   "Она помогает избежать аномалий при вставке, обновлений, удалений\n"+
+                                                   "и упрощает схему базы данных\n"),
+
+                ("280. Обратная нормализация базы данных","Обратная нормализация - это баланс между идеальной нормализацией и реальной потребностью\n"+
+                                                          "производительностью и удобством работы с данными\n"),
+
+                ("281. Кеширование таблицы TRUNCATE","Создание таблицы для кеширования\n"+
+                                                     "Периодическое обновление кеша\n"+
+                                                     "TRUNCATE TABLE name\n"+
+                                                     "INSERT INTO name(column1, column2)\n"+
+                                                     "SELECT FROM WHERE\n"+
+                                                     "Полезен для сложных запросов, где актуальность данных не так важна\n"),
+
+                ("282. Триггеры","Специальные хранимые процедуры, которые автоматически выполняются\n"+
+                                 "при наступлении определенных событий\n"+
+                                 "CREATE TRIGGER trigger_name\n"+
+                                 "{BEFORE | AFTER | INSTEAD OF} момент срабатывания до, после или вместо\n "+
+                                 "{INSERT | UPDATE | DELETE} привязка к событиям\n"+
+                                 "FOR EACH{ROW, STATEMENT} {выполняются для строки, для всего оператора}\n"+
+                                 "EXECUTE FUNCTION nameFunction\n"+
+                                 "Включение и отключение триггера {ENABLE, DISABLE}\n"+
+                                 "DROP TRIGGER name - удаление триггера\n"),
+
+                ("283. Основные подходы для денормализации","1. Добавление вычисляемых столбцов\n"+
+                                                            "2. Дублирование данных из связанных таблиц\n"+
+                                                            "3. Объединение таблиц\n "+
+                                                            "4. Создание агрегированных таблиц\n"+
+                                                            "5. Иерархические структуры в одном столбце техника\\телефоны\\модель\n"+
+                                                            "6. Использование JSON/JSONB для сложных структур\n"+
+                                                            "7. Создание копий таблиц для разных целей\n"),
+
+                ("284. Виды планов выполения запросов","EXPLAIN показывает статистику, без выполнения\n"+
+                                                  "EXPLAIN ANALYZE показывает статистику с выполнением\n"+
+                                                  "EXPALAIN (VEBROSE TRUE) дополнительная информация Output столбцов(FALSE по умолчанию)\n"+
+                                                  "EXPLAIN (COSTS FALSE) оценивает ожидаемую нагрузку на каждом шагу. по умолчанию TRUE\n "+
+                                                  "EXPLAIN (ANALYZE BUFFERS) используется только с ANALYZE\n"+
+                                                  "   состоит из 2 основных частей:\n"+
+                                                  "   shared read разделяемых чтений - чтение с диска\n"+
+                                                  "   shared hit разделяемых обращений - чтение с кэша\n"+
+                                                  "EXPLAIN (ANALYZE TIMING) время на каждом узле. По умолчанию TRUE\n"+
+                                                  "EXPLAIN (ANALYZE SUMMARY) включает итоговую информацию\n"+
+                                                  "   может работать и с ANALYZE по умолчанию TRUE\n"+
+                                                  "EXPLAIN (FORMAT JSON) возвращает в разных форматах(XML,JSON,YAML)\n"+
+                                                  "   TEXT по умолчанию\n"),
+
+                ("285. Шаги SQL при выполнении","1.Компиляция и преобразование оператора SQL в выражение,\n"+
+                                           "состоящие из высокоуровневых логических операций, логический план\n"+
+                                           "2.Оптимизирует логический план и преобразует его в план выполнения\n"+
+                                           "3.Выполняет(интерпретирует) план и возвращает результаты\n"),
+
+                ("286.Секционированная таблица", "Основные типы секционирования:\n"+
+                                                 "1. RANGE по диапазону FOR VALUES FROM\n" +
+                                                 "2.LIST по списку значений FOR VALUES IN\n   "+
+                                                 "3. HASH по хеш функции \n"+
+                                                 "Создаем основную (родительскую) таблицу\n "+
+                                                 " CREATE TABLE sales(\n"+
+                                                 " id\n"+
+                                                 "sale_date DATE\n"+
+                                                 ") PARTITION BY RANGE(sale_date)\n"+
+                                                 "Создаем секции (партиции)\n"+
+                                                 "CREATE TABLE sales_q1 PARTITION OF sales\n"+
+                                                 "FOR VALUES FROM ('2023-01-01) TO ('2023-04-01')\n"),
+
+                ("287.Времменые таблицы","CREATE TEMP TABLE\n"),
+
+
+
 
 
 
