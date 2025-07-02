@@ -2247,7 +2247,24 @@ namespace QuizToLearn
                                           "4NF\n"+
                                           "нет нетравиальных многозначных зависимостей\n"+
                                           "5NF\n"+
-                                          "нет нетравиальных зависимостей\n")
+                                          "нет нетравиальных зависимостей\n"),
+
+                ("477. Стандартные опрерации PostgreSQL","Создание таблицы:\n"+
+                                                         "CREATE TABLE [IF NOT EXISTS] table_name(\n"+
+                                                         "column name\n"+
+                                                         ")[WITH допы]\n"+"" +
+                                                         "Изменение таблицы:\n"+
+                                                         "ALTER TABLE table_name ADD COLUMN column_name data_type\n"+
+                                                         "ALTER TABLE table_name DROP COLUMN [IF EXISTS] column_name [CASCADE]\n"+
+                                                         "ALTER TABLE table_name RENAME COLUMN old_name TO new_name\n"+
+                                                         "ALTER TABLE table_name ALTER COLUMN column_name TYPE new_data_type\n"+
+                                                         "ALTER TABLE table_name ALTER COLUMN column_name SET DEFAULT value\n"+
+                                                         "ALTER TABLE table_name ALTER COLUMN column_name DROP DEFAULT\n"+
+                                                         "ALTER TABLE table_name ADD CONSTRAINT constraint_name constraint_definition\n"+
+                                                         "ALTER TABLE table_name DROP CONSTRAINT [IF EXISTS] constraint_name [CASCADE]\n"+
+                                                         "Удаление таблицы:\n"+
+                                                         "DROP TABLE [IF EXISTS] table_name [CASCADE | RESTRICT]\n"+
+                                                         "TRANCATE [TABLE] [ONLY] table_name [RESTART IDENTITY | CONTINUE IDENTITY] [CASCADE | RESTRICT]\n")
 
 
 
