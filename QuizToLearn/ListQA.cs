@@ -1760,15 +1760,22 @@ namespace QuizToLearn
                                                                 "которая позволяет обрабатывать иерархические или последовательные данные\n"+
                                                                 "путем повторяющегося выполнения запроса до достижения заданного уровня\n"),
 
-                ("356.Приведите пример запроса для заполнения пропусков в последовательности Рекурсия.","WITH RECURSIVE all_dates AS(\n"+
-                                                                                "SELECT MIN(date) AS date FROM sales\n"+
+                ("356.Приведите пример запроса для заполнения пропусков в последовательности Рекурсия.","WITH RECURSIVE date_range AS(\n"+
+                                                                                "SELECT \n"+
+                                                                                "'2023-01-01'::DATE AS date,\n"+
+                                                                                "'2023-01-31'::DATE AS end_date\n"+
+
                                                                                 "UNION ALL\n"+
-                                                                                "SELECT date +1\n "+
-                                                                                "FROM all_dates\n"+
-                                                                                "WHERE date<(SELECT MAX(date) FROM sales))\n+" +
-                                                                                "SELECT d.date, COALESCE(s.amount, 0) AS amount\n"+
-                                                                                "FROM all_dates d\n"+
-                                                                                "LEFT JOIN sales s ON d.date=s.date\n"+
+                                                                                "SELECT\n"+
+                                                                                " date +1,\n "+
+                                                                                "end_date\n"+
+                                                                                "FROM date_range\n"+
+                                                                                "WHERE date < end_date\n"+
+                                                                                ")\n" +
+                                                                                "SELECT d.date AS missing_date\n"+
+                                                                                "FROM date_range AS  d\n"+
+                                                                                "LEFT JOIN events e  ON d.date=e.event_date\n"+
+                                                                                "WHERE e.event_date IS NULL\n"+
                                                                                 "ORDER BY d.date\n"),
 
                 ("357.Почему важно избегать подзапросов в SQL?","Коррелированные подзапросы выполняются для каждой строки внешнего запроса\n"+
