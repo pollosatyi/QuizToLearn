@@ -2265,7 +2265,18 @@ namespace QuizToLearn
                                                          "ALTER TABLE table_name DROP CONSTRAINT [IF EXISTS] constraint_name [CASCADE]\n"+
                                                          "Удаление таблицы:\n"+
                                                          "DROP TABLE [IF EXISTS] table_name [CASCADE | RESTRICT]\n"+
-                                                         "TRANCATE [TABLE] [ONLY] table_name [RESTART IDENTITY | CONTINUE IDENTITY] [CASCADE | RESTRICT]\n")
+                                                         "TRANCATE [TABLE] [ONLY] table_name [RESTART IDENTITY | CONTINUE IDENTITY] [CASCADE | RESTRICT]\n"),
+
+                ("478.Операторы сравнения в MongoDB","1. $eq: = \n"+
+                                                     "2. $ne: !=\n"+
+                                                     "3. $gt: >\n"+
+                                                     "4. $gte: >=\n"+
+                                                     "5. $lt: <\n"+
+                                                     "6. $lte: <=\n"+
+                                                     "7. $in: равно любому из\n"+
+                                                     "8. $nin: неравно любому значению\n"+
+                                                     "9. $exists: true есть ли такое поле\n "+
+                                                     "10. $type проверка типа данных")
 
 
 
@@ -2301,7 +2312,7 @@ namespace QuizToLearn
             Random random = new Random();
             //0-130 git
             //131-475 sql
-            return random.Next(0,listQA.Count-1);
+            return random.Next(464,listQA.Count-1);
         }
 
         public void PrintQA()
