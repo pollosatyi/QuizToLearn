@@ -1305,7 +1305,9 @@ namespace QuizToLearn
                 ("264. Поиск полнотекстовый с выделением","ts_headline('english', title, websearch_to_tsquery('\"stars wars\"'),\n" +
                                                           "'StarSel=<mark>,StopSel=</mark>'"),
 
-                ("265. Функции для валидации и определения JSON","val IS JSON\n"+
+                ("265. Функции для валидации и определения JSON","json_typeof(value) IS NOT NULL\n"+
+                                                                 ""+
+                                                                  "val IS JSON\n"+
                                                                  "IS JSON scalar - скалярное ли\n"+
                                                                  "IS JSON array - массив ли\n"+
                                                                  "IS JSON object - объект\n"+
@@ -2276,7 +2278,32 @@ namespace QuizToLearn
                                                      "7. $in: равно любому из\n"+
                                                      "8. $nin: неравно любому значению\n"+
                                                      "9. $exists: true есть ли такое поле\n "+
-                                                     "10. $type проверка типа данных")
+                                                     "10. $type проверка типа данных"),
+
+                ("479. Проекция C#","Позволяет преобразовать объект одного типа в объект другого типа\n"+
+                                    "с помощью оператора Select\n"+
+                                    "var names= from p in people select p.name\n"+
+                                    "SELECT(Func<TSourse>,<TResult> selector)\n"+"" +
+                                    "var personel = from p in people\n"+
+                                    "select new\n "+
+                                    "{\n"+
+                                    "FirstName=p.Name\n"+
+                                    "Year=DateTime.Now.Year - p.Age\n"+
+                                    "}\n"),
+
+                ("480.Переменные let","var personnel = from p in people\n"+
+                                      "let name = $\"MR.{p.Name }\"\n"+
+                                      "let year = DateTime.Now.Year - p.Age\n"+
+                                      "select new\n"+
+                                      "{\n"+
+                                      "Name = name,\n"+
+                                      "Year = year\n"+
+                                      "};\n"),
+
+                ("481. SelectMany","SelectMany(Func<TSource, IEnumerable<TResult>> selector)\n"+
+                                   "SelectMany(Func<TSource, IEnumerable<TCollection>> collectionSelector, Func<TSource, TCollection,TResult>resultSelector)\n"+
+                                   "")
+
 
 
 
@@ -2311,8 +2338,9 @@ namespace QuizToLearn
         {
             Random random = new Random();
             //0-130 git
-            //131-475 sql
-            return random.Next(464,listQA.Count-1);
+            //131-478 sql
+            //479     продвинутый C#
+            return random.Next(0,listQA.Count-1);
         }
 
         public void PrintQA()
