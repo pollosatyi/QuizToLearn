@@ -3887,7 +3887,7 @@ namespace QuizToLearn
                                                                    "GetMaxThreads()\n"+
                                                                    "GetAvailableThreads() доступные потоки прямо сейчас\n"),
 
-                ("779. Какое поведение по умолчанию у пула потоков?","Environment.Count это минимум потоков. максимум отверсии net"+ 
+                ("779. Какое поведение по умолчанию у пула потоков?","Environment.Count(количество процессорных ядер) это минимум потоков. максимум отверсии net"+ 
                 ""),
 
 
@@ -4168,7 +4168,8 @@ namespace QuizToLearn
             //0-130 git
             //131-478 sql
             //479     продвинутый C#
-            return random.Next(481, listQA.Count - 1);
+            return random.Next(516, 557);
+            //return random.Next(481, listQA.Count - 1);
         }
 
         public void PrintQA()
