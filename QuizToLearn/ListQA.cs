@@ -3470,7 +3470,7 @@ namespace QuizToLearn
 
                 ("686. Что происходит на уровне исполнения при вызове await?","1. Трансформация кода компилятором\n"+
                                                                               "2. создание State Machine\n"+
-                                                                              "\n"+
+                                                                              
                                                                                " 3.Проверка завершенности await\n"+
                                                                                "4. сохранение контекста\n"+
                                                                                "5. возврат управления вызывающему коду\n"+
@@ -4105,7 +4105,48 @@ namespace QuizToLearn
 
                 ("830. Как безопасно завершить канал?","channel.Writer.Complete();\n"+
                                                        "ReadAllAsync()\n"+
-                                                       "WaitToReadAsync + TryRead\n")
+                                                       "WaitToReadAsync + TryRead\n"),
+
+                ("831.Как создать проект MinimalApi","ASP.Net Core Web Api без контроллеров\n"),
+
+                ("832.запуск проекта не браузере","1. установить в json browserLauncher false\n"+
+                                                  "2. под json есть файл .http\n"+
+                                                  "3. и в этом файле нажать send Request\n"),
+
+                ("833. место запуска(ядро приложения WebApi)","WebApplication.CreateBuilder\n"),
+
+                ("834. создание возврата GetMinimalApi ","app.MapGet(/название, ()=> something)"),
+
+                ("835.основные отличия MinimalApi от приложения с контроллерами c#","1. у MinimalApi более функциональный подход, контроллеры на ООП\n"+
+                                                                                    "2. минимальность классов и файлов, контролеры это про разделение на классы и части\n"+
+                                                                                    "3. минимум шаблонов, максимум полезного кода, у контроллеров атрибуты\n"+
+                                                                                    "4. минимум кода, у контроллеров все расписано\n"+
+                                                                                    "5. Внедрение зависисмостей более гибкое, у контроллеров через классы\n"+
+                                                                                    "6. Кастомные фильтры, у контроллеров есть встроенные\n"+
+                                                                                    "7. Меньше накладных расходов, быстрее запуск, меньше потребления памяти\n"),
+
+                ("836.создание строки подключеняи к базе данных","builder.Services.AddContext<ApplicationDbContext>(\n"+
+                                                                 "options=>NpgSqlServer(defaultConnection)\n"),
+
+                ("837. добавить миграции команда ","Add-Migration имя\n"),
+
+                ("838.обновить базу данных ","Update-Database"),
+
+                ("839. асинхронный метод Post Minimal Api","app.MapPost(\"people\", async (Person person, ApplicationDbContext context)=>{" +
+                                               " context.Add(people); await SaveChangesAsync();   })"),
+
+                ("840. асинхронный метод GetId Minimal Api","app.MapGet(\"people\"{id:int}, async Task<Results<Ok<Person>,Not Found>>(int id, ApplicationContext context)=>)\n"),
+
+                ("841. метод удаления Minimal Api","ExecuteDeleteAsync"),
+
+                ("842. кеш выводы в builder как написать","builder.Services.AddOutPutCache()\n"+
+                                                          "app.UseOutputCache\n"+
+                                                          "c=>c.Expire(TimeSpan)"),
+
+                ("843. Обновление кеша minimal api","IoutputCacheStore\n"+
+                                                    "await outputcacheStore.EvictByTagAsync(\"people-tag\",default)\n"),
+
+                ("844.Создание миграции через командную строк ","dotnet ef migrations add название\n")
 
                                                  
 
@@ -4169,9 +4210,9 @@ namespace QuizToLearn
             Random random = new Random();
             //0-130 git
             //131-478 sql
-            //479     продвинутый C#
+            //479-830     продвинутый C#
             //return random.Next(505, 515);
-            return random.Next(481, listQA.Count - 1);
+            return random.Next(831, listQA.Count - 1);
         }
 
         public void PrintQA()
