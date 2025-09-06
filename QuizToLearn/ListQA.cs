@@ -4146,7 +4146,73 @@ namespace QuizToLearn
                 ("843. Обновление кеша minimal api","IoutputCacheStore\n"+
                                                     "await outputcacheStore.EvictByTagAsync(\"people-tag\",default)\n"),
 
-                ("844.Создание миграции через командную строк ","dotnet ef migrations add название\n")
+                ("844.Создание миграции через командную строк ","dotnet ef migrations add название\n"),
+
+                ("845. обновление миграции через командную строку","dotnet ef database update\n"),
+
+                ("846. класс для возврата результата minimal Api","статический класс Result\n"+
+                                                                  "Result.Ok()-200\n"+
+                                                                  "Result.Created() - 201\n"+
+                                                                  "Result.BadRequest() - 400\n"+
+                                                                  "Result.Unauthorized() - 401\n"+
+                                                                  "Result.Forbid() - 403\n"+
+                                                                  "Result.NotFound() - 404\n"),
+
+                ("847. метод фильтра авторизации minimal Api","RequireAuthorization()"),
+
+                ("848. безопасность JWT","builder.Services.AddAuthentication(\"Bearer\")\n"+
+                                         ".AddJwtBearer(options=>\n"+
+                                         "{\n"+
+                                         "options.Authority=\"https://your-auth-server\"\n"+
+                                         "options.Audience\n"+
+
+                                           "}\n"+
+                                           "в точку добавить атрибут [Authorize] между названием и лямбдой\n"),
+
+                ("849.Интеграция OAuth2","builder.Services.AddAuthentication()\n"+
+                                         ".AddGoogle(options=>\n"+
+                                         "{\n"+
+                                         "options.ClientId= \"your-client-id\"\n"+
+                                         "options.ClientSecret=\"your-client-secret\\n"+
+                                         "})\n"),
+
+                ("850.Распределение ролей [Autorize]","builder.Services.AddAuthorization(options=>{\n"+
+                                                      "options.AddPolicy(\"AdminOnly\",policy=>policy.RequireClaim(\"role\",\"admin\")})"+
+                                                      "app.MapGet(\"admin\",[Authorize(Policy=\"AdminOnly\")] ()=> \"Admin Content\")"),
+
+                ("851.Получение Ip в Minimal Api","app.Use(async(content, next)=>{\n"+
+                                                  "var ip = context.Connection.RemoteIpAddress\n"+
+                                                  "ip.ToString() == 123.456.789.0\n"),
+
+                ("852.Кеширование Minimal Api","builder.Services.AddResponceCaching\n"+
+                                               "app.ResponceCaching()\n"+
+                                               "app.MapGet().CacheOutPut()\n"),
+
+                ("853. Redis для распределенного кеширования ","builder.Services.AddStackExchangeRedisCache(options=>{\n"+
+                                                               "options.Configuration=\n"+
+                                                               "options.InstanceName=\n"),
+
+                ("854. надежный способ масштабирования Kubernetes","1.Контейнеризация свой Minimal Api с помощью Docker\n"+
+                                                                   "2. Развернуть образ Docker в кластере Kubernetes\n "+
+                                                                   "3. настройка правил автоматического масштабирования с помощью Horizontal Pod Autoscaler\n"),
+
+                ("855. Загрузка(прием) файлов Minimal Api","app.MapPost(\"\\/upload\", async(IFormFile file) \n"+
+                                                     "var filePath = Path.Combine(\"Uploads\",file.FileName)\n"+
+                                                     "using (var stream = new FileStream(filePath, FileMode.Create))\n"+
+                                                     "{ await file.CopyToAsync(stream)}"),
+
+                ("856. Отправка файлов Minimal Api ","app.MapGet(string fileNmae\n"+
+                                                     "var fileBytes = File.ReadAllBytes(filePath)\n"+
+                                                     "return Results.File(fileBytes, \"\", fileName)"),
+
+                ("857. Практики по эффективной и безопасной обработки файлов\n ","1. Ограничение размеров файла\n"+
+                                                                                 "2. Проверка типа файла\n"+
+                                                                                 "3. Безопасное хранение файла\n"+
+                                                                                 "4. Потоковая предача для больших файлов\n"),
+
+                ("858. Передача в параметр метода Map объекта","атрибут [AsParameters]"),
+
+                ("859. ","")
 
                                                  
 
